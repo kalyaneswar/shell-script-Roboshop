@@ -168,3 +168,112 @@ After connecting to `redis-cli`, you can perform the following checks:
    ```
 
 
+# 04 - RabbitMQ
+
+## Verify RabbitMQ is Running
+```sh
+sudo systemctl status rabbitmq-server
+```
+
+## RabbitMQ Default Ports
+```
+AMQP Port: 5672
+Management UI Port: 15672
+```
+```sh
+ss -ltnp | grep 5672
+ss -ltnp | grep 15672
+netstat -lntp | grep 5672
+netstat -lntp | grep 15672
+```
+
+## Connect to RabbitMQ CLI
+```sh
+rabbitmqctl status
+```
+
+## List Users
+```sh
+rabbitmqctl list_users
+```
+
+## Add a RabbitMQ User
+```sh
+rabbitmqctl add_user roboshop roboshop123
+```
+
+## Set Permissions for a User
+```sh
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+```
+
+## Enable Management Plugin
+```sh
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo systemctl restart rabbitmq-server
+```
+
+## Access Management UI
+Open a browser and go to:
+```
+http://<server_ip>:15672
+```
+Login with your RabbitMQ user credentials.
+
+## Connectivity Details
+- **Firewall**: Ensure ports 5672 and 15672 are open.
+  ```sh
+  sudo firewall-cmd --permanent --add-port=5672/tcp
+  sudo firewall-cmd --permanent --add-port=15672/tcp
+  sudo firewall-cmd --reload
+  ```
+- **SELinux**: If enforcing, allow RabbitMQ network traffic:
+  ```sh
+  sudo setsebool -P nis_enabled 1
+  ```
+- **Test Connectivity**: From a remote host:
+  ```sh
+  telnet <server_ip> 5672
+  nc -zv <server_ip> 5672
+  ```
+- **Erlang Cookie**: For clustering, ensure `/var/lib/rabbitmq/.erlang.cookie` is identical on all nodes and has permissions `400`.
+- **Virtual Hosts**: List and create vhosts:
+  ```sh
+  rabbitmqctl list_vhosts
+  rabbitmqctl add_vhost my_vhost
+  ```
+- **User Permissions on Vhost**:
+  ```sh
+  rabbitmqctl set_permissions -p my_vhost roboshop ".*" ".*" ".*"
+  ```
+
+## Troubleshooting
+- **Logs**: Check logs for errors:
+  ```sh
+  sudo tail -f /var/log/rabbitmq/rabbit@$(hostname).log
+  sudo tail -f /var/log/rabbitmq/rabbit@$(hostname)-sasl.log
+  ```
+- **Service Status**: Re-run `rabbitmqctl status` to verify node health.
+- **Memory Alarms**: List and reset alarms:
+  ```sh
+  rabbitmqctl list_alarms
+  rabbitmqctl clear_alarms
+  ```
+- **File Descriptors**: Increase limits if you see `fd_alloc_limit` warnings. Edit `/etc/security/limits.conf`:
+  ```
+  rabbitmq soft nofile 65536
+  rabbitmq hard nofile 65536
+  ```
+- **Plugin Issues**: Verify plugins:
+  ```sh
+  rabbitmq-plugins list
+  ```
+- **Erlang Cookie Mismatch**: If clustering fails, ensure the cookie file content and permissions match.
+- **Node Not Starting**: Check for port conflicts, correct ownership of `/var/lib/rabbitmq`, and available disk space.
+- **Reset to Defaults**: If misconfigured, reset:
+  ```sh
+  sudo systemctl stop rabbitmq-server
+  sudo rm -rf /var/lib/rabbitmq/mnesia/
+  sudo systemctl start rabbitmq-server
+  ```
+
