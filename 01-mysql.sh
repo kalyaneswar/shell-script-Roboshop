@@ -11,6 +11,14 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+# Ensure the script is being run as root
+if [ $USERID -ne 0 ]; then
+    echo "Please run this script with root access."
+    exit 1
+else
+    echo "You are super user."
+fi
+
 # Ask for the MySQL root password
 echo "Please enter DB password:"
 read -s mysql_root_password
