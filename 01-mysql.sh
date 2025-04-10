@@ -11,6 +11,10 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+# Ask for the MySQL root password
+echo "Please enter DB password:"
+read -s mysql_root_password
+
 # Function to validate the success of commands
 VALIDATE() {
     if [ $1 -ne 0 ]; then
@@ -22,19 +26,19 @@ VALIDATE() {
 }
 
 # Installing Mysql
-dnf install mysql-server -y >>$LOGFILE
+dnf install mysql-server -y &>>$LOGFILE
 VALIDATE $? "Installing MySQL"
 
 # Enabling Mysql
-systemctl enable mysqld  >>$LOGFILE
+systemctl enable mysqld  &>>$LOGFILE
 VALIDATE $? "Enabling MySQL"
 
 # Starting the mysql service
-systemctl start mysqld >>$LOGFILE
+systemctl start mysqld &>>$LOGFILE
 VALIDATE $? "Starting MySQL"
 
 # setting the password
-mysql_secure_installation --set-root-pass RoboShop@1 >>$LOGFILE
+mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
 VALIDATE $? "Setting Password for MySQL"
 
 # mysql -h <IP> -uroot -pRoboShop@1 >>$LOGFILE
