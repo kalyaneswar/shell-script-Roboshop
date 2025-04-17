@@ -8,7 +8,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGO_HOST=mongodb.kalyaneswar.online
+MONGO_HOST=mongodb.kalyaneswar.site
 
 VALIDATE(){
    if [ $1 -ne 0 ]
@@ -49,7 +49,7 @@ VALIDATE $? "Moving to HTML directory"
 unzip /tmp/web.zip &>>$LOGFILE
 VALIDATE $? "Extracting web application"
 
-cp /home/ec2-user/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>>$LOGFILE
+cp /home/ec2-user/shell-script-Roboshop/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>>$LOGFILE
 VALIDATE $? "copying roboshop conf"
 
 systemctl restart nginx &>>$LOGFILE

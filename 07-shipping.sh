@@ -63,7 +63,7 @@ VALIDATE $? "Packaging shipping"
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 VALIDATE $? "Renaming the artifact"
 
-cp shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp /home/ec2-user/shell-script-Roboshop/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 VALIDATE $? "Copying service file"
 
 
