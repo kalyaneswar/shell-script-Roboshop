@@ -65,6 +65,7 @@ npm install &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 
 cp /home/ec2-user/shell-script-Roboshop/user.service /etc/systemd/system/user.service &>> $LOGFILE
+VALIDATE $? "Copying user service"
 
 systemctl daemon-reload &>> $LOGFILE
 VALIDATE $? "Daemon reload"
@@ -75,7 +76,7 @@ VALIDATE $? "Enable user"
 systemctl start user &>> $LOGFILE
 VALIDATE $? "Start user"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/ec2-user/shell-script-Roboshop/user.service/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "Copying mongo repo"
 
 dnf install -y mongodb-mongosh &>> $LOGFILE
