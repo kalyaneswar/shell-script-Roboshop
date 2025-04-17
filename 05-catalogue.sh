@@ -86,7 +86,7 @@ systemctl start catalogue &>>$LOGFILE
 VALIDATE $? "catalogue service start"
 
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+cp /home/ec2-user/shell-script-Roboshop/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
 VALIDATE $? "copy mongo repo file"
 
 
