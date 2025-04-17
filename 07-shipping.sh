@@ -8,6 +8,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+MYSQL_HOST=mysql.kalyaneswar.site
 
 VALIDATE(){
    if [ $1 -ne 0 ]
@@ -26,8 +27,6 @@ then
 else
     echo "You are super user."
 fi
-
-
 
 
 dnf install maven -y &>> $LOGFILE
@@ -63,9 +62,8 @@ VALIDATE $? "Packaging shipping"
 mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 VALIDATE $? "Renaming the artifact"
 
-cp /home/ec2-user/shell-script-Roboshop/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp /home/ec2-user/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 VALIDATE $? "Copying service file"
-
 
 systemctl daemon-reload &>> $LOGFILE
 VALIDATE $? "Daemon reload"
