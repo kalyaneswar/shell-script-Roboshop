@@ -67,7 +67,7 @@ VALIDATE $? "changing to app current directory"
 npm install &>>$LOGFILE
 VALIDATE $? "Installing Npm"
 
-cp cart.service /etc/systemd/system/cart.service &>>$LOGFILE
+cp /home/ec2-user/shell-script-Roboshop/cart.service /etc/systemd/system/cart.service &>>$LOGFILE
 VALIDATE $? "copying cart service file"
 
 # ​The systemctl daemon-reload command is used in Linux systems to instruct the systemd system and service manager to reload its configuration files. This is particularly necessary after creating, modifying, or deleting unit files (such as .service files) so that systemd recognizes and applies the changes without requiring a system reboot. It re-reads all unit files and regenerates the dependency tree, ensuring that any updates to service configurations are acknowledged. ​
