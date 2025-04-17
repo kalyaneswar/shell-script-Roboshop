@@ -78,14 +78,21 @@ dnf install mysql -y &>> $LOGFILE
 VALIDATE $? "Installing MySQL"
 
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e "use cities" &>> $LOGFILE
-if [ $? -ne 0 ]
-then
+if [ -f /app/db/schema.sql ] && [ -f /app/db/master-data.sql ] && [ -f /app/db/app-user.sql ]; then
     echo "Schema is ... LOADING"
-    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/*.sql &>> $LOGFILE
-    VALIDATE $? "Loading schema"
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LOGFILE
+    VALIDATE $? "Loading schema.sql"
+
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LOGFILE
+    VALIDATE $? "Loading master-data.sql"
+
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LOGFILE
+    VALIDATE $? "Loading app-user.sql"
 else
-    echo -e "Schema already exists... $Y SKIPPING $N"
+    echo -e "One or more schema files are missing...$R FAILURE $N"
+    exit 1
 fi
+
 
 systemctl restart shipping
 VALIDATE $? "Restarted Shipping"
