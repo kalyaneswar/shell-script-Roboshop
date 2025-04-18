@@ -42,7 +42,7 @@ do
     fi
 
      # For frontend instance, create the instance and retrieve the public IP address
-    if [ ! $instance == "frontend" ]
+    if [ ! $instance == "web" ]
     then
         # Create EC2 instance and get its private IP address (since it's not frontend, it's backend or db)
         IP_ADDRESS=$(aws ec2 run-instances --image-id $IMAGE_ID --instance-type $INSTANCE_TYPE --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].PrivateIpAddress' --output text)
