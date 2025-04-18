@@ -20,8 +20,9 @@ else
 fi
 
 # Ask for the MySQL root password
-echo "Please enter DB password:"
-read -s mysql_root_password
+# echo "Please enter DB password:"
+# read -s mysql_root_password
+mysql_root_password=RoboShop@1
 
 # Function to validate the success of commands
 VALIDATE() {
