@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # List of instance names to be created (frontend, backend, db)
-INSTANCES=("mysql" "mongodb" "redis" "rabbitmq" "catalogue" "cart" "shipping" "user" "payment" "web")
+INSTANCES=("mysql" "mongodb" "redis" "rabbitmq" "catalouge" "cart" "shipping" "user" "payment" "web")
 
 # The hosted zone for your domain in AWS Route53.
 HOSTED_ZONE="kalyaneswar.site"
