@@ -10,7 +10,7 @@ HOSTED_ZONE="kalyaneswar.site"
 IMAGE_ID="ami-09c813fb71547fc4f"
 
 # The security group ID which allows at least SSH (port 22) access to the instances.
-SG_ID="sg-087068de447654b44"
+SG_ID="sg-08ddaa8cfe73d4af2"
 
 # Fetch the hosted zone ID from AWS Route53 using the hosted zone name
 ZONE_ID=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '$HOSTED_ZONE.'].Id" --output text)
